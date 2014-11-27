@@ -7,8 +7,10 @@
         
         {%for orgs in contributors%} 
             {%for org in orgs%}  
-            <ul><strong>{{ org.org_name  }}</strong>
-                <li>Total Contrib: {{ org.total }}</li>
+            <ul><strong>{{ org.industry_name  }}</strong>
+                <li>Total Contribution: {{ org.total }}</li>
+                <li>Indiv Contributions: {{ org.indivs }}</li>
+                <li>Pac Contributions: {{ org.pacs }}</li>
             </ul>
             {% endfor %}
         {% endfor %}
