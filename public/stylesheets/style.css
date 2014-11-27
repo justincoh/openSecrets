@@ -1,0 +1,16 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.subunit[class*="CA"] {
+  fill: #EEE; 
+}
+
+.subunit[class*="US"] {
+  fill:#5B68D8;
+}
