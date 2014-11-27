@@ -11,9 +11,10 @@ var path = d3.geo.path()
     .projection(projection);
 
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select(".mapContainer").append("svg")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height)
+    .attr("id",'US')
 
 
 d3.json("/d3/us.json", function(error, us) {
@@ -29,9 +30,6 @@ d3.json("/d3/us.json", function(error, us) {
       .attr("class", function(d) { return "subunit " + d.id; }) 
       //added id in above line to use as selector: ex US-NY
       .attr("d", path);
-      
-
-
 
     //Building hover tooltip
     //has to be inside d3.json build for async reasons

@@ -14,3 +14,24 @@ a {
 svg {
 	border: 2px solid red;
 }
+
+.footer {
+	color:#bbb;
+	
+}
+
+/*This isnt working, pull in scss
+@media screen and (max-width: 995px) , screen and (max-height: 700px) {
+	.mapContainer{
+		width: 900px;
+		height:700px;
+	}
+}
+
+@media screen and (max-width: 500px) , screen and (max-height: 500px) {
+	.mapContainer{
+		width: 450px;
+		height:400px;
+	}
+}
+*/

@@ -11,6 +11,11 @@ router.get('/:repId', function(req, res) {
 	var repCall = 'http://www.opensecrets.org/api/?method=candSummary&cid='+repId+'cycle=2014&apikey='+apiKey+'&output=json';
 	var contributors = 'http://www.opensecrets.org/api/?method=candContrib&cid='+repId+'&cycle=2014&output=json&apikey='+apiKey;
 	
+
+    //Test this, summarizes contributions by industry
+    //Better than getting the specifics below imo
+    //var industries = 'http://www.opensecrets.org/api/?method=candIndustry&cid='+repId+'&cycle=2014&output=json&apikey='+apiKey;
+
 	request(contributors, function (err, response) {
   		if (err)  console.log('ERROR: ',err);
     	
@@ -24,19 +29,15 @@ router.get('/:repId', function(req, res) {
     	
     	//This['@attributes'] gives an array of contributor objects with keys: org_name, total, pacs, indivs
 	
-    	console.log('CAND ',candidate)
+    	// console.log('CAND ',candidate)
     	console.log('contrib ',contributors)
 
-    res.render('reps',{
+        res.render('reps',{
 			candidate:candidate,
 			contributors:contributors
 			}
-    )
+        )
     
-
-
-
-
 	})
 	
 	
