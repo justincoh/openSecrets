@@ -69,12 +69,7 @@ d3.json("/d3/us.json", function(error, us) {
       })
       .on('click',function(d) {
         var stateAbbrev = d.id.split('-')[1];
-        //this needs to redirect to './state/:abbrev'
         d3.select(this)
-          // .attr('href','localhost:3000/state/'+stateAbbrev) //this adds the href
-          // .attr('class','form')
-          // .attr('action','/state/'+stateAbbrev)
-          // .attr('method','GET')
         window.location.replace('http://localhost:3000/state/'+stateAbbrev);
         console.log(this)
       })  
