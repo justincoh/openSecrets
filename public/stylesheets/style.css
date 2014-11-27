@@ -7,10 +7,10 @@ a {
   color: #00B7FF;
 }
 
-.subunit[class*="CA"] {
-  fill: #EEE; 
-}
-
 .subunit[class*="US"] {
   fill:#5B68D8;
+}
+
+svg {
+	border: 2px solid red;
 }

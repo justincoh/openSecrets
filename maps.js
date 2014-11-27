@@ -1,13 +1,10 @@
 var apiKey = '464d93f237b44d62ce46382d060a193b';
 
-var width = 1000,
-    height = 1000;
+var width = 800,
+    height = 600;
 
-var projection = d3.geo.albers()
-    .rotate([96, 0])
-    .center([-.6, 38.7])
-    .parallels([29.5, 45.5])
-    .scale(500)
+var projection = d3.geo.albersUsa()
+    .scale(1000)
     .translate([width / 2, height / 2]);
 
 var path = d3.geo.path()
