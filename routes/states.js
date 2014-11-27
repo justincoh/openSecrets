@@ -3,12 +3,8 @@ var router = express.Router();
 var http = require('http');
 var apiKey = '464d93f237b44d62ce46382d060a193b';
 
-
-
-
-
 router.get('/:state', function(req, res) {
-	
+	console.log('hit states route')
 	var pelosi;
 	var state=req.params.state.toUpperCase()
 	var stateReps = '/api/?method=getLegislators&id='+state+'&apikey='+apiKey+'&output=json'
@@ -18,7 +14,7 @@ router.get('/:state', function(req, res) {
 		  port: 80,  
 		  method: 'GET'
 	};
-	console.log('hit states route ',state)
+
 	var responseArray =[];
 	req.on('error', function(e) {
 	  	console.log('problem with request: ' + e.message);
@@ -38,7 +34,7 @@ router.get('/:state', function(req, res) {
 			  	
 			  	for(var i=0;i<legislators.length;i++){
 			  		var thisRep = superBuf.response.legislator[i]['@attributes'];
-			  		console.log(thisRep.firstlast)
+			  		// console.log(thisRep.firstlast)
 			  		responseArray.push(thisRep)
 			  		
 			  		

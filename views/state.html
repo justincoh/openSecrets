@@ -3,11 +3,11 @@
 {% block content %}
     <h1>{{state}}</h1>
    
-    {% for person in reps %}
-    <ul><h3>{{ person.firstlast }}</h3>
-    	{%for attribute in person%}
-    	<li>{{ attribute }}</li>
-    	{%endfor%}
+    {% for rep in reps %}
+    {#	<ul class="form" role="form" action="/{{ rep.cid }}" method="GET">	#}
+    <ul><a href='/reps/{{ rep.cid }}'>
+    	<h3>{{ rep.firstlast }}</h3>
+    	
 
     </ul>
     

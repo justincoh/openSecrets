@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    
+    <ul>
+    	<h2>{{ candidate.cand_name }}</h2>
+        
+        {%for orgs in contributors%} 
+            {%for org in orgs%}  
+            <ul><strong>{{ org.org_name  }}</strong>
+                <li>Total Contrib: {{ org.total }}</li>
+            </ul>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+    
+
+
+{% endblock %}

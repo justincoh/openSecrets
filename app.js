@@ -8,6 +8,7 @@ var swig = require('swig');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var states = require('./routes/states');
+var reps = require('./routes/reps')
 
 var app = express();
 
@@ -26,7 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/state',states)
+app.use('/state', states);
+app.use('/reps', reps);
 
 app.use('/d3', express.static(__dirname + '/'));
 
