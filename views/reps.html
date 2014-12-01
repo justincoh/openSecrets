@@ -2,8 +2,8 @@
 
 {% block content %}
     
-    {{ pieData | json }}
     	<h2>{{ candidate.cand_name }}</h2>
+        {#
         {%for orgs in contributors%} 
             {%for org in orgs%}  
             <ul><strong>{{ org.industry_name  }}</strong>
@@ -13,13 +13,17 @@
             </ul>
             {% endfor %}
         {% endfor %}
-    
-        
+        #}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
             <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
             <script src="http://d3js.org/d3.v3.min.js"></script>
             <script src="http://d3js.org/topojson.v1.min.js"></script>
             <script src='/d3/pieCharts.js'>
+            </script>
+            <script>
+                {% autoescape false %}
+                    createPieChart({{ pieData | json }})
+                {% endautoescape  %}
             </script>
             
 {% endblock %}
