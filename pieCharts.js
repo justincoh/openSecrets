@@ -40,10 +40,12 @@ function createPieChart(data){
   var g = svg.selectAll(".arc")
       .data(pie(data))
     .enter().append("g")
-      .attr("class", "arc");
+      .attr("class", "arc")
+
 
   g.append("path")
       .attr("d", arc)
+      .attr("funding",function(d){return d.data.total})
       .style("fill", function(d) { 
       	// console.log(d.data.age,": Start Angle , ",d.startAngle)  //Getting angles for each arc (in radians)
       	// console.log(d.data.age,": End Angle , ",d.endAngle)  //Getting angles for each arc
