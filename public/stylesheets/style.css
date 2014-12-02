@@ -8,12 +8,10 @@ a {
 }
 
 .subunit[class*="US"] {
-  fill:#5B68D8;
+  fill:#3366FF;
+  opacity: 1;
 }
 
-svg {
-	border: 1px solid red;
-}
 
 .footer {
 	color:#bbb;

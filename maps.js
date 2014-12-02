@@ -29,7 +29,8 @@ d3.json("/d3/us.json", function(error, us) {
     .enter().append("path")
       .attr("class", function(d) { return "subunit " + d.id; }) 
       //added id in above line to use as selector: ex US-NY
-      .attr("d", path);
+      .attr("d", path)
+      // .style('opacity',1)
 
     //Building hover tooltip
     //has to be inside d3.json build for async reasons
