@@ -30,8 +30,13 @@ d3.json("/d3/us.json", function(error, us) {
       .attr("class", function(d) { return "subunit " + d.id; }) 
       //added id in above line to use as selector: ex US-NY
       .attr("d", path)
-      // .attr('fill-opacity',0.2)
-      // .style('fill','#bbb')
+      
+
+  /////////Gives state boundary lines
+  svg.insert('path','.graticule')
+    .datum(topojson.feature(us, us.objects.subunits,function(a, b) {console.log(a,b); return a !== b; }))
+    .attr('class','state-boundary')
+    .attr("d", path);
 
     //Building hover tooltip
     //has to be inside d3.json build for async reasons
@@ -45,11 +50,7 @@ d3.json("/d3/us.json", function(error, us) {
       d3.selectAll('path')
         .on('mouseover', function(d) {
         var stateAbbrev = d.id.split('-')[1];
-        // for(key in d){
-          // console.log(d)
-        //   tooltipInfo.push(d[key])
-        // }
-        // console.log(d)
+      
         d3.select(this)
           .style('opacity', 0.7)
         tooltip.transition()
