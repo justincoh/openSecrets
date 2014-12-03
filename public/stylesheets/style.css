@@ -8,8 +8,13 @@ a {
 }
 
 .subunit[class*="US"] {
-  fill:#3366FF;
-  opacity: 1;
+  
+}
+
+path {
+	fill: #333;
+	opacity: .5;
+	
 }
 
 

@@ -30,7 +30,8 @@ d3.json("/d3/us.json", function(error, us) {
       .attr("class", function(d) { return "subunit " + d.id; }) 
       //added id in above line to use as selector: ex US-NY
       .attr("d", path)
-      // .style('opacity',1)
+      // .attr('fill-opacity',0.2)
+      // .style('fill','#bbb')
 
     //Building hover tooltip
     //has to be inside d3.json build for async reasons
@@ -50,7 +51,7 @@ d3.json("/d3/us.json", function(error, us) {
         // }
         // console.log(d)
         d3.select(this)
-          .style('opacity', 0.5)
+          .style('opacity', 0.7)
         tooltip.transition()
           .style('opacity', .9)
         tooltip.html(stateAbbrev)
@@ -59,7 +60,7 @@ d3.json("/d3/us.json", function(error, us) {
       })
       .on('mouseout', function(d) {
             d3.select(this)
-              .style('opacity', 1)
+              .style('opacity', .5)
             tooltip.transition().duration(500)
               .style('opacity', 0)
       })

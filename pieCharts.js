@@ -109,7 +109,7 @@ function pieSliceToggle(element){
 };
 
 
-////Need to write a function to format money
+//Formatting money for display purposes
 function formatMoney (num) {
     return '$'+num.toString()
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
