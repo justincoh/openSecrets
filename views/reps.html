@@ -1,32 +1,43 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    
-    	<h2>{{ candidate.cand_name }}</h2>
-        <ul id='summary'>
-            <li id='percentage'></li>
+
+	<h2>{{ candidate.cand_name }}</h2>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+      <h3>Contributions</h3>
+      <ul id='summary'>
+        <li id='percentage'></li>
+      </ul>
+      {#
+        {%for orgs in contributors%}
+        {%for org in orgs%}
+        <ul><strong>{{ org.industry_name  }}</strong>
+          <li>Total Contribution: {{ org.total }}</li>
+          <li>Indiv Contributions: {{ org.indivs }}</li>
+          <li>Pac Contributions: {{ org.pacs }}</li>
         </ul>
-        {#
-        {%for orgs in contributors%} 
-            {%for org in orgs%}  
-            <ul><strong>{{ org.industry_name  }}</strong>
-                <li>Total Contribution: {{ org.total }}</li>
-                <li>Indiv Contributions: {{ org.indivs }}</li>
-                <li>Pac Contributions: {{ org.pacs }}</li>
-            </ul>
-            {% endfor %}
         {% endfor %}
-        #}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-            <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-            <script src="http://d3js.org/d3.v3.min.js"></script>
-            <script src="http://d3js.org/topojson.v1.min.js"></script>
-            <script src='/d3/pieCharts.js'>
-            </script>
-            <script>
-                {% autoescape false %}
-                    createPieChart({{ pieData | json }})
-                {% endautoescape  %}
-            </script>
-            
+        {% endfor %}
+      #}
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-9 col-xs-12">
+      <div id="repPieChart"></div>
+    </div>
+  </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src='/d3/pieCharts.js'>
+    </script>
+    <script>
+        {% autoescape false %}
+            createPieChart({{ pieData | json }})
+        {% endautoescape  %}
+    </script>
+
+
 {% endblock %}
