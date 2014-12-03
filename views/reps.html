@@ -1,32 +1,55 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    
-    	<h2>{{ candidate.cand_name }}</h2>
-        <ul id='summary'>
-            <li id='percentage'></li>
-        </ul>
-        {#
-        {%for orgs in contributors%} 
-            {%for org in orgs%}  
-            <ul><strong>{{ org.industry_name  }}</strong>
-                <li>Total Contribution: {{ org.total }}</li>
-                <li>Indiv Contributions: {{ org.indivs }}</li>
-                <li>Pac Contributions: {{ org.pacs }}</li>
+
+	<h2>{{ candidate.cand_name }}</h2>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+      <h3>Contributions</h3>
+			<div id="summary"></div>
+			<div id="totalContributions">
+				<li>
+					<h4>Total Funding</h4>
+					<h3>$0</h3>
+				</li>
+			</div>
+      <div id="percentage">
+      	<li>
+					<h4>Percent of Total</h4>
+      		<h3>0.00%</h3>
+      	</li>
+      </div>
+			<!-- What on earth is going on down here? Is this just data?-->
+      {#
+        {%for orgs in contributors%}
+          {%for org in orgs%}
+            <ul>
+              <li>{{ org.industry_name  }}</li>
+              <li>Total Contribution: {{ org.total }}</li>
+              <li>Indiv Contributions: {{ org.indivs }}</li>
+              <li>Pac Contributions: {{ org.pacs }}</li>
             </ul>
-            {% endfor %}
+          {% endfor %}
         {% endfor %}
-        #}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-            <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-            <script src="http://d3js.org/d3.v3.min.js"></script>
-            <script src="http://d3js.org/topojson.v1.min.js"></script>
-            <script src='/d3/pieCharts.js'>
-            </script>
-            <script>
-                {% autoescape false %}
-                    createPieChart({{ pieData | json }})
-                {% endautoescape  %}
-            </script>
-            
+      #}
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-9 col-xs-12">
+      <div id="repPieChart"></div>
+    </div>
+  </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src='/d3/pieCharts.js'>
+    </script>
+    <script>
+        {% autoescape false %}
+            createPieChart({{ pieData | json }})
+        {% endautoescape  %}
+    </script>
+
+
 {% endblock %}

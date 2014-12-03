@@ -1,6 +1,6 @@
 // var express = require('express');
 
-var width = 960,
+var width = 600,
     height = 500,
     radius = Math.min(width, height) / 2;
 
@@ -24,14 +24,14 @@ var sum=0; //Will be used throughout this file
 
 function createPieChart(data){
 
-  
+
   for(var i = 0; i<data.length;i++){
     sum += data[i]['total'];
   //Or should I store this as a key of the obj?
   }
 
 
-  var svg = d3.select("body").append("svg")
+  var svg = d3.select("#repPieChart").append("svg")
     .attr("width", width)
     .attr("height", height)
     .append("g")
@@ -47,7 +47,7 @@ function createPieChart(data){
   g.append("path")
       .attr("d", arc)
       .attr("funding",function(d){return d.data.total})
-      .style("fill", function(d) { 
+      .style("fill", function(d) {
       	// console.log(d.data.age,": Start Angle , ",d.startAngle)  //Getting angles for each arc (in radians)
       	// console.log(d.data.age,": End Angle , ",d.endAngle)  //Getting angles for each arc
       	return color(d.data.industry); });
@@ -57,6 +57,7 @@ function createPieChart(data){
       .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
       .attr("dy", ".35em")
       .style("text-anchor", "middle")
+      // .style("z-index", "100") //
       .text(function(d) { return d.data.industry; });
 
   //For tooltip positioning, though you might want to remove tooltip entirely
@@ -85,7 +86,7 @@ function createPieChart(data){
               // .style('top', (d3.event.pageY - 30) + 'px')
               // .style('left', (bbox.width*.5) + 'px')
               // .style('top', (bbox.height*.5) + 'px')
-                
+
           })
             .on('mouseout', function(d) {
                 d3.select(this)
@@ -115,13 +116,14 @@ function formatMoney (num) {
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
 
-////JQuery function that is called on every click to populate financial summary 
+////JQuery function that is called on every click to populate financial summary
 ////on the side of the page
 ////am going to have to refactor the HTML to make this layout work
 function populateSummary(){
   var activeTotal=0;
   var $percentage = $('#percentage');
-  var $summary = $('ul#summary');
+  var $summary = $('#summary');
+  var $totalContributions = $("#totalContributions")
   var $activeNodes = $('path[active="true"]');
   var industries=[];
   // activeNodes.each(function(index,val){console.log($(val).attr('funding'))})
@@ -132,16 +134,19 @@ function populateSummary(){
   var percent = +(activeTotal*100/sum).toFixed(2);
   // console.log(activeTotal,sum,percent,industries)
   var percentLi=$('<li/>')
-    .text(percent+'% of total funding for cycle:');
+    .html("<h4>Percent of Total</h4><h3>" + percent + "%" + "</h3>");
   var totalLi=$('<li/>')
-    .text(formatMoney(activeTotal));
+    .html("<h4>Total Funding</h4><h3>" + formatMoney(activeTotal) + "</h3>");
+  // var currentContributors=$("<li/>")
+  //   .html()
 
-  
-  console.log($percentage)
-  $summary.text(industries.join(', '))
-  totalLi.appendTo($summary);
-  percentLi.appendTo($summary);
-  
+  // $("#contributors").text(industries)
+  $summary.html(industries.join('<br>'));
+  $totalContributions.html(totalLi);
+  // totalLi.appendTo($totalContributions);
+  $percentage.html(percentLi);
+  // percentLi.replaceWith($percentage);
+
 }
 
 
