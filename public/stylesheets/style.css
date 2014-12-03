@@ -38,3 +38,10 @@ li {
 	}
 }
 */
+
+#totalContributions, #percentage {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+  margin: 10px 0px;
+}

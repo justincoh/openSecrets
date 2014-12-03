@@ -57,6 +57,7 @@ function createPieChart(data){
       .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
       .attr("dy", ".35em")
       .style("text-anchor", "middle")
+      // .style("z-index", "100") //
       .text(function(d) { return d.data.industry; });
 
   //For tooltip positioning, though you might want to remove tooltip entirely
@@ -121,7 +122,8 @@ function formatMoney (num) {
 function populateSummary(){
   var activeTotal=0;
   var $percentage = $('#percentage');
-  var $summary = $('ul#summary');
+  var $summary = $('#summary');
+  var $totalContributions = $("#totalContributions")
   var $activeNodes = $('path[active="true"]');
   var industries=[];
   // activeNodes.each(function(index,val){console.log($(val).attr('funding'))})
@@ -132,15 +134,18 @@ function populateSummary(){
   var percent = +(activeTotal*100/sum).toFixed(2);
   // console.log(activeTotal,sum,percent,industries)
   var percentLi=$('<li/>')
-    .text(percent+'% of total funding for cycle:');
+    .html("<h4>Percent of Total</h4><h3>" + percent + "%" + "</h3>");
   var totalLi=$('<li/>')
-    .text(formatMoney(activeTotal));
+    .html("<h4>Total Funding</h4><h3>" + formatMoney(activeTotal) + "</h3>");
+  // var currentContributors=$("<li/>")
+  //   .html()
 
-
-  console.log($percentage)
-  $summary.text(industries.join(', '))
-  totalLi.appendTo($summary);
-  percentLi.appendTo($summary);
+  // $("#contributors").text(industries)
+  $summary.html(industries.join('<br>'));
+  $totalContributions.html(totalLi);
+  // totalLi.appendTo($totalContributions);
+  $percentage.html(percentLi);
+  // percentLi.replaceWith($percentage);
 
 }
 
