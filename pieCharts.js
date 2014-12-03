@@ -67,19 +67,6 @@ function createPieChart(data){
           d3.selectAll('path').on('click', function(d) {
             pieSliceToggle(this);
             populateSummary();  //populating summary
-<<<<<<< HEAD
-=======
-            // tooltip.transition()
-            //   .style('opacity', .9)
-            // tooltip.html((
-            //   (d['value']/sum)*100)
-            //     .toFixed(2)+'% of total funding')
-              // console.log(d)
-              // .style('left', (d3.event.pageX -15) + 'px')
-              // .style('top', (d3.event.pageY - 30) + 'px')
-              // .style('left', (bbox.width*.5) + 'px')
-              // .style('top', (bbox.height*.5) + 'px')
->>>>>>> c40d899920354254b072fa197ee18860b7ba1e9d
 
           })
             .on('mouseover', function(d) {
