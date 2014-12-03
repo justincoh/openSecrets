@@ -3,6 +3,9 @@
 {% block content %}
     
     	<h2>{{ candidate.cand_name }}</h2>
+        <ul id='summary'>
+            <li id='percentage'></li>
+        </ul>
         {#
         {%for orgs in contributors%} 
             {%for org in orgs%}  

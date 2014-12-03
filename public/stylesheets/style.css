@@ -15,7 +15,12 @@ a {
 
 .footer {
 	color:#bbb;
-	
+	position: fixed;
+	bottom: 0px;
+}
+
+li {
+	list-style-type: none;
 }
 
 /*This isnt working, pull in scss
