@@ -59,39 +59,22 @@ function createPieChart(data){
       .style("text-anchor", "middle")
       .text(function(d) { return d.data.industry; });
 
-  //For tooltip positioning, though you might want to remove tooltip entirely
-  //and just have each click print things on the side in a list
-  //but each path is going to need to have its associated data
+
     var element = d3.selectAll('svg')
     element = element[0][0];
     var bbox = element.getBBox();
-    // var tooltip = d3.select('body').append('div')
-    //           .style('position', 'absolute')
-    //           .style('padding', '0 10px')
-    //           .style('background', 'black')
-    //           .style('color','white')
-    //           .style('opacity', 0) // setting to 0 because we dont want it to show when the graphic first loads
-    //           .style('font-size','12px')
           d3.selectAll('path').on('click', function(d) {
             pieSliceToggle(this);
             populateSummary();  //populating summary
-            // tooltip.transition()
-            //   .style('opacity', .9)
-            // tooltip.html((
-            //   (d['value']/sum)*100)
-            //     .toFixed(2)+'% of total funding')
-              // console.log(d)
-              // .style('left', (d3.event.pageX -15) + 'px')
-              // .style('top', (d3.event.pageY - 30) + 'px')
-              // .style('left', (bbox.width*.5) + 'px')
-              // .style('top', (bbox.height*.5) + 'px')
 
           })
-            .on('mouseout', function(d) {
+            .on('mouseover', function(d) {
                 d3.select(this)
                   .style('opacity', 1)
-                // tooltip.transition()
-                //   .style('opacity', 0)
+            })
+            .on('mouseout', function(d) {
+                d3.select(this)
+                  .style('opacity', .5)
             })
 }
 
