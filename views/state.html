@@ -2,15 +2,23 @@
 
 {% block content %}
     <h1>{{state}}</h1>
-   
-    {% for rep in reps %}
-    {#	<ul class="form" role="form" action="/{{ rep.cid }}" method="GET">	#}
-    <ul><a href='/reps/{{ rep.cid }}'>
-    	<h3>{{ rep.firstlast }}</h3>
-    	</a>
-    </ul>
-    
-
-    {% endfor %}
-
+    <h3>Representatives</h3>
+   	<div class='row' id='repRow'>
+			
+		<div >	
+	    {% for rep in reps %}
+			
+		    <ul id="rep"><a href='/reps/{{ rep.cid }}'>
+		    	{{ rep.firstlast }}
+		    	</a>
+		    </ul>
+		
+	    
+	    
+	    {% endfor %}
+	    </div>
+	</div>
+			
+		
+	
 {% endblock %}

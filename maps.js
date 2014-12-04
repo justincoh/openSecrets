@@ -49,6 +49,10 @@ d3.json("/d3/us.json", function(error, us) {
 
       d3.selectAll('path')
         .on('mouseover', function(d) {
+          
+          if(d3.select(this).attr('class')==='state-boundary'){
+            return;  //Handles mouseover state boundary lines
+          }
         var stateAbbrev = d.id.split('-')[1];
       
         d3.select(this)

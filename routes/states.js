@@ -3,11 +3,13 @@ var router = express.Router();
 var http = require('http');
 var apiKey = '464d93f237b44d62ce46382d060a193b';
 
+
+var stateAbbrevs ={AK:"Alaska",AL:"Alabama",AR:"Arkansas",AZ:"Arizona",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",FL:"Florida",GA:"Georgia",HI:"Hawaii",IA:"Iowa",ID:"Idaho",IL:"Illinois",IN:"Indiana",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",MA:"Massachusetts",MD:"Maryland",ME:"Maine",MI:"Michigan",MN:"Minnesota",MO:"Missouri",MS:"Mississippi",MT:"Montana",NC:"North Carolina",ND:"North Dakota",NE:"Nebraska",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NV:"Nevada",NY:"New York",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VA:"Virginia",VT:"Vermont",WA:"Washington",WI:"Wisconsin",WV:"West Virginia",WY:"Wyoming"};
+
 router.get('/:state', function(req, res) {
-	console.log('hit states route')
-	var pelosi;
+		
 	var state=req.params.state.toUpperCase()
-	var stateReps = '/api/?method=getLegislators&id='+state+'&apikey='+apiKey+'&output=json'
+	var stateReps = '/api/?method=getLegislators&cycle=2014&id='+state+'&apikey='+apiKey+'&output=json'
 	var options = {
 		  host: 'www.opensecrets.org',
 		  path: stateReps,
@@ -40,7 +42,7 @@ router.get('/:state', function(req, res) {
 			  		
 			  	} //Responses is filled
 			  	
-	  			res.render('state', { state: state,
+	  			res.render('state', { state: stateAbbrevs[state],
 					reps: responseArray}
 	  			);
 		  		

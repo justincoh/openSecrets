@@ -1,9 +1,13 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>{{title}}</h1>
-   
-    <h3>{{ response }}</h3>
+<div class='row'>
+	<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" id='intro'>
+	    <h2>OpenSecrets</h2>
+	    <hr>
+	    <h3>Click a state</h3>
+	</div>	
+	<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-2">
 	    <div class ="mapContainer">
 		    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 			<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
@@ -11,4 +15,7 @@
 			<script src="http://d3js.org/topojson.v1.min.js"></script>
 			<script src='/d3/maps.js'></script>
     	</div>
+    </div>	
+	
+</div>
 {% endblock %}

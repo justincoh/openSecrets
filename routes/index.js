@@ -16,11 +16,9 @@ var options = {
 };
 
 
-
 /* GET home page. */
 router.get('/', function(req, res) {
-	res.render('index',{title:'Home Page',
-				response: 'Click a State'})	
+	res.render('index')
 });
 
 module.exports = router;
