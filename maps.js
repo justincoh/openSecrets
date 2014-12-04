@@ -72,7 +72,8 @@ d3.json("/d3/us.json", function(error, us) {
       .on('click',function(d) {
         var stateAbbrev = d.id.split('-')[1];
         d3.select(this)
-        window.location.replace('http://localhost:3000/state/'+stateAbbrev);
+        // window.location.replace('http://localhost:3000/state/'+stateAbbrev);
+        window.location.replace('/state/'+stateAbbrev);
         console.log(this)
       })  
 
