@@ -101,7 +101,6 @@ function formatMoney (num) {
 
 ////JQuery function that is called on every click to populate financial summary
 ////on the side of the page
-////am going to have to refactor the HTML to make this layout work
 function populateSummary(){
   var activeTotal=0;
   var $percentage = $('#percentage');
@@ -109,7 +108,7 @@ function populateSummary(){
   var $totalContributions = $("#totalContributions")
   var $activeNodes = $('path[active="true"]');
   var industries=[];
-  // activeNodes.each(function(index,val){console.log($(val).attr('funding'))})
+  
   $activeNodes.each(function(index,val){
     activeTotal+= +$(val).attr('funding');
     industries.push($(val).next().text());
@@ -119,7 +118,7 @@ function populateSummary(){
   var percentLi=$('<li/>')
     .html("<h4>Percent of Total</h4><h3>" + percent + "%" + "</h3>");
   var totalLi=$('<li/>')
-    .html("<h4>Total Funding</h4><h3>" + formatMoney(activeTotal) + "</h3>");
+    .html("<h4>Selected Funding</h4><h3>" + formatMoney(activeTotal) + "</h3>");
   // var currentContributors=$("<li/>")
   //   .html()
 

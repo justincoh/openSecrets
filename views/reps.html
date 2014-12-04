@@ -7,10 +7,10 @@
   <div class="row">
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
       <h3>Contributions</h3>
-			<div id="summary"></div>
+			
 			<div id="totalContributions">
 				<li>
-					<h4>Total Funding</h4>
+					<h4>Selected Funding</h4>
 					<h3>$0</h3>
 				</li>
 			</div>
@@ -20,19 +20,9 @@
       		<h3>0.00%</h3>
       	</li>
       </div>
-			<!-- What on earth is going on down here? Is this just data?-->
-      {#
-        {%for orgs in contributors%}
-          {%for org in orgs%}
-            <ul>
-              <li>{{ org.industry_name  }}</li>
-              <li>Total Contribution: {{ org.total }}</li>
-              <li>Indiv Contributions: {{ org.indivs }}</li>
-              <li>Pac Contributions: {{ org.pacs }}</li>
-            </ul>
-          {% endfor %}
-        {% endfor %}
-      #}
+      <h4>Contributing Industries</h4>
+      <div id="summary"></div>
+			
     </div>
     <div class="col-lg-6 col-md-6 col-sm-9 col-xs-12">
       <div id="repPieChart"></div>
