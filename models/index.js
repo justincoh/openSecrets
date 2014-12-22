@@ -10,9 +10,9 @@ var Schema = mongoose.Schema;
 
 var legislatorSchema = new Schema({
 	state: String,
-	firstLast: String,
-	lastName: String,
-	cId: String,
+	firstlast: String,
+	lastname: String,
+	cid: String,
 	party: String,
 	dob: String,
 	
@@ -22,7 +22,7 @@ legislatorSchema.plugin(findOrCreate);
 
 
 var industrySchema = new Schema({
-	cId: String,
+	cid: String,
 	industryCode: String,
 	industryName: String,
 	indivs: Number,

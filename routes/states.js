@@ -1,78 +1,59 @@
 var express = require('express');
 var router = express.Router();
-var http = require('http');
-var apiKey = '464d93f237b44d62ce46382d060a193b';
 var models = require('../models');
-var stateAbbrevs = require('../public/javascripts/stateAbbrevs.js')
+var utilities = require('../public/javascripts/utilities.js');
+var stateAbbrevs = utilities.states;
+var apiKey = utilities.apiKey;
+var request = require('request');
+var q = require('q');
+
+
+
 
 router.get('/:state', function(req, res) {
 		
 	var state=req.params.state.toUpperCase()
-	var stateReps = '/api/?method=getLegislators&cycle=2014&id='+state+'&apikey='+apiKey+'&output=json'
-	var options = {
-		  host: 'www.opensecrets.org',
-		  path: stateReps,
-		  port: 80,  
-		  method: 'GET'
-	};
+	var promises = [];
+	var stateReps = 'http://www.opensecrets.org/api/?method=getLegislators&cycle=2014&id='+state+'&apikey='+apiKey+'&output=json';
+	var responseArray=[];
+	request(stateReps,function(err,response){
+		var parsedResponse = JSON.parse(response.body).response.legislator;
 
-	var responseArray =[];
-	req.on('error', function(e) {
-	  	console.log('problem with request: ' + e.message);
-	  	res.status(500).send()
-  	})
-  	var req = http.request(options, function(httpRes) {
-		  var buf;
-		  httpRes.on('data', function (chunk) {
-		    if(!buf){ buf = chunk;}
-		    else {buf += chunk}
-		  });
+		parsedResponse.forEach(function(person){
+			var thisRep = person['@attributes'];
 
-		  httpRes.on('end', function() {
-			  	var superBuf = JSON.parse(buf);
-			  	
-			  	var legislators = superBuf.response.legislator  //Legislators is an array of objects
-			  	
-			  	for(var i=0;i<legislators.length;i++){
-			  		var thisRep = superBuf.response.legislator[i]['@attributes'];
-			  		// responseArray.push(thisRep)
-			  		models.Legislator.findOrCreate(
-			  			{
+			var findPromise = models.Legislator.findOne({cid: thisRep.cid},function(err,res){
+				if(!res){	//If not found, create
+					var createPromise = models.Legislator.create(
+						{
 				  			state: state,
-				  			firstLast: thisRep.firstlast,
-				  			lastName: thisRep.lastname,
-				  			cId: thisRep.cid,
+				  			firstlast: thisRep.firstlast,
+				  			lastname: thisRep.lastname,
+				  			cid: thisRep.cid,
 				  			party: thisRep.party,
 				  			dob: thisRep.birthdate
-			  			} ,
-			  			function(err,rep,created){
-			  				responseArray.push(rep)
+			  			} , 
+			  			function(error, createdRep){
+			  				responseArray.push(createdRep)
 			  			}
-			  		)	//Legislators have been added to DB
-			  	} 		//and pushed to array
-			  		console.log('resArray ',responseArray)
-			  	
+			  		);
+				promises.push(createPromise)	
+				}
+			}).exec();
 
-			  	//render is hitting before the findorcreate is done
-			  	//need to handle promises
-	  			res.render('state', { state: stateAbbrevs[state],
-					reps: responseArray}
-	  			);
-		  		
-		  })
-	});  //End request
+			promises.push(findPromise);
 
-	req.on('error', function(e) {
-	  console.log('problem with request: ' + e.message);
-	  console.log(e)
-	});
+		})
 
-	// write data to request body
-	req.write('data\n');
-	req.write('data\n');
-	req.end()
+		q.all(promises).then(function(results){
+			console.log('RESULTS ' ,results)
+			res.render('state',{
+				state:stateAbbrevs[state],
+				reps:results}
+			)
+		})
+	})
 
-	
 });
 
 

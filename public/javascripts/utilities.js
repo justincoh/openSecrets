@@ -1,4 +1,6 @@
-module.exports =
+exports.apiKey = '464d93f237b44d62ce46382d060a193b';
+
+exports.states =
 	{
 		AK:"Alaska",
 		AL:"Alabama",
