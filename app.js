@@ -44,7 +44,7 @@ app.use('/reps', reps);
 app.use('/orgs',orgs);
 app.use('/about',about);
 
-app.use('/d3', express.static(__dirname + '/'));
+app.use('/d3', express.static(__dirname + '/d3'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
