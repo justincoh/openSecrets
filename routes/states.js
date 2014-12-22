@@ -3,9 +3,7 @@ var router = express.Router();
 var http = require('http');
 var apiKey = '464d93f237b44d62ce46382d060a193b';
 var models = require('../models');
-
-
-var stateAbbrevs ={AK:"Alaska",AL:"Alabama",AR:"Arkansas",AZ:"Arizona",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",FL:"Florida",GA:"Georgia",HI:"Hawaii",IA:"Iowa",ID:"Idaho",IL:"Illinois",IN:"Indiana",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",MA:"Massachusetts",MD:"Maryland",ME:"Maine",MI:"Michigan",MN:"Minnesota",MO:"Missouri",MS:"Mississippi",MT:"Montana",NC:"North Carolina",ND:"North Dakota",NE:"Nebraska",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NV:"Nevada",NY:"New York",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VA:"Virginia",VT:"Vermont",WA:"Washington",WI:"Wisconsin",WV:"West Virginia",WY:"Wyoming"};
+var stateAbbrevs = require('../public/javascripts/stateAbbrevs.js')
 
 router.get('/:state', function(req, res) {
 		
@@ -37,12 +35,26 @@ router.get('/:state', function(req, res) {
 			  	
 			  	for(var i=0;i<legislators.length;i++){
 			  		var thisRep = superBuf.response.legislator[i]['@attributes'];
-			  		// console.log(thisRep.firstlast)
-			  		responseArray.push(thisRep)
-			  		
-			  		
-			  	} //Responses is filled
+			  		// responseArray.push(thisRep)
+			  		models.Legislator.findOrCreate(
+			  			{
+				  			state: state,
+				  			firstLast: thisRep.firstlast,
+				  			lastName: thisRep.lastname,
+				  			cId: thisRep.cid,
+				  			party: thisRep.party,
+				  			dob: thisRep.birthdate
+			  			} ,
+			  			function(err,rep,created){
+			  				responseArray.push(rep)
+			  			}
+			  		)	//Legislators have been added to DB
+			  	} 		//and pushed to array
+			  		console.log('resArray ',responseArray)
 			  	
+
+			  	//render is hitting before the findorcreate is done
+			  	//need to handle promises
 	  			res.render('state', { state: stateAbbrevs[state],
 					reps: responseArray}
 	  			);
