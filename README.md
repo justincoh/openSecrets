@@ -9,7 +9,7 @@ Currently working on a few additions:
 
 1. State summary by industry, similar to the current representative pages
 2. State summary by party
-3. Adding an industry heatmap option to the home page where states will be color coded based on the selected industry
+3. Adding an industry heatmap option to the home page where states will be color coded based on the amount of funding from the selected industry
 
 ***
 
