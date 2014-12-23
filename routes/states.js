@@ -24,7 +24,8 @@ router.get('/:state', function(req, res) {
 
 			var findPromise = models.Legislator.findOne({cid: thisRep.cid},function(err,res){
 				if(!res){	//If not found, create
-					var createPromise = models.Legislator.create(
+					var createPromise = 
+					models.Legislator.create(
 						{
 				  			state: state,
 				  			firstlast: thisRep.firstlast,
@@ -34,9 +35,14 @@ router.get('/:state', function(req, res) {
 				  			dob: thisRep.birthdate
 			  			} , 
 			  			function(error, createdRep){
-			  				responseArray.push(createdRep)
+			  				// responseArray.push(createdRep)
+			  				// if(error) console.log('error ',error)
+
+			  				console.log('ERR',error)
+			  				console.log('REsponse',createdRep)
 			  			}
 			  		);
+			  		console.log("createPromise", createPromise)
 				promises.push(createPromise)	
 				}
 			}).exec();
@@ -46,6 +52,7 @@ router.get('/:state', function(req, res) {
 		})
 
 		q.all(promises).then(function(results){
+			console.log('PROMISES ',promises)
 			console.log('RESULTS ' ,results)
 			res.render('state',{
 				state:stateAbbrevs[state],
@@ -53,8 +60,9 @@ router.get('/:state', function(req, res) {
 			)
 		})
 	})
+})
 
-});
+// });
 
 
 module.exports = router;
