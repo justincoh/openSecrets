@@ -13,7 +13,7 @@ var q = require('q');
 router.get('/:state', function(req, res) {
 		
 	var state=req.params.state.toUpperCase()
-	var promises = [];
+	var legislatorPromiseArray = [];
 	var stateReps = 'http://www.opensecrets.org/api/?method=getLegislators&cycle=2014&id='+state+'&apikey='+apiKey+'&output=json';
 	var responseArray=[];
 	request(stateReps,function(err,response){
@@ -22,10 +22,12 @@ router.get('/:state', function(req, res) {
 		parsedResponse.forEach(function(person){
 			var thisRep = person['@attributes'];
 
-			var findPromise = models.Legislator.findOne({cid: thisRep.cid},function(err,res){
-				if(!res){	//If not found, create
-					var createPromise = 
-					models.Legislator.create(
+			var findPromise = models.Legislator.findOne({cid: thisRep.cid}).exec();
+			legislatorPromiseArray.push(findPromise.then(function(res){
+				if(res){
+					return res;
+				} else {
+					return models.Legislator.create(
 						{
 				  			state: state,
 				  			firstlast: thisRep.firstlast,
@@ -33,27 +35,20 @@ router.get('/:state', function(req, res) {
 				  			cid: thisRep.cid,
 				  			party: thisRep.party,
 				  			dob: thisRep.birthdate
-			  			} , 
-			  			function(error, createdRep){
-			  				// responseArray.push(createdRep)
-			  				// if(error) console.log('error ',error)
-
-			  				console.log('ERR',error)
-			  				console.log('REsponse',createdRep)
-			  			}
-			  		);
-			  		console.log("createPromise", createPromise)
-				promises.push(createPromise)	
+			  			}  	
+		  			).then(function(legislator){
+		  				return legislator
+		  			})
 				}
-			}).exec();
-
-			promises.push(findPromise);
-
+				console.log('RES  ',res)
+			},
+				function(err){
+					console.log('ERROR ',err)
+				}
+			))
 		})
 
-		q.all(promises).then(function(results){
-			console.log('PROMISES ',promises)
-			console.log('RESULTS ' ,results)
+		q.all(legislatorPromiseArray).then(function(results){
 			res.render('state',{
 				state:stateAbbrevs[state],
 				reps:results}
