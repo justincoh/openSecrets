@@ -19,6 +19,7 @@ var legislatorSchema = new Schema({
 });
 
 // legislatorSchema.plugin(findOrCreate);
+//doesn't return promises
 
 
 var industrySchema = new Schema({
@@ -27,9 +28,12 @@ var industrySchema = new Schema({
 	industryName: String,
 	indivs: Number,
 	pacs: Number,
-	total: Number, ///Use a virtual for total
 	cycle: Number,
 	cid: String
+})
+
+industrySchema.virtual('total').get(function(){
+	return this.indivs + this.pacs;
 })
 
 // industrySchema.plugin(findOrCreate);
