@@ -18,19 +18,20 @@ var legislatorSchema = new Schema({
 	
 });
 
-legislatorSchema.plugin(findOrCreate);
+// legislatorSchema.plugin(findOrCreate);
 
 
 var industrySchema = new Schema({
-	cid: String,
+	state: String,
 	industryCode: String,
 	industryName: String,
 	indivs: Number,
 	pacs: Number,
-	total: Number
+	total: Number, ///Use a virtual for total
+	cycle: Number
 })
 
-industrySchema.plugin(findOrCreate);
+// industrySchema.plugin(findOrCreate);
 
 
 
