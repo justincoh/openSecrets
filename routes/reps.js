@@ -1,19 +1,18 @@
 var express = require('express');
 var router = express.Router();
+var models = require('../models');
 var utilities = require('../public/javascripts/utilities.js');
 var stateAbbrevs = utilities.states;
 var apiKey = utilities.apiKey;
 var request = require('request');
-var q = require('q');  //how can i refactor this with q?
+var q = require('q');
 
 router.get('/:state/:repId', function(req, res) {
 	var repId = req.params.repId;
     var state = req.params.state;
     var cycle = 2014;
     var industrySummary = 'http://www.opensecrets.org/api/?method=candIndustry&cid='+repId+'&cycle='+cycle+'&output=json&apikey='+apiKey;
-	// var repCall = 'http://www.opensecrets.org/api/?method=candSummary&cid='+repId+'cycle=2014&apikey='+apiKey+'&output=json';
 	
-    
     request(industrySummary,function(err,response){
         var parsedResponse = JSON.parse(response.body).response.industries;
         var candidate = parsedResponse['@attributes'];
@@ -21,11 +20,8 @@ router.get('/:state/:repId', function(req, res) {
         var industryPromiseArray = [];
 
         orgs.forEach(function(org){
-            
-            //need to make database call first to see if they're in there
             var thisOrg = org['@attributes'];
-
-            var promiseForIndustry = models.Industry.findOne({state:state,indivs:thisOrg.indivs,pacs: thisOrg.indivs}).exec()
+            var promiseForIndustry = models.Industry.findOne({state:state,indivs:thisOrg.indivs,pacs: thisOrg.pacs}).exec()
             industryPromiseArray.push(promiseForIndustry.then(function(res){
                 if(res){
                     return res;
@@ -33,76 +29,46 @@ router.get('/:state/:repId', function(req, res) {
                     return models.Industry.create(
                         {
                             state:state,
-                            industryCode: thisOrg.industryCode,
+                            industryCode: thisOrg.industry_code,
                             industryName: thisOrg.industry_name,
                             indivs: thisOrg.indivs,
                             pacs: thisOrg.pacs,
-                            cycle: cycle
+                            cycle: cycle,
+                            cid: repId
 
-                        }
-
-                        ////Finish refactoring this built off of states.js example
-
-                    )
+                        })
+                        .then(function(industry){
+                            return industry
+                        })
                 }
-
-
-            })
-                
-
-
-
-            ////this needs to be done with the returned promise results
-            ////instead of just from the api call, for heatmapping purposes
-            var totals = {};
-            totals.industry = thisOrg.industry_name;
-            totals.total = +thisOrg.total;
-            pieData.push(totals)
-
+            },
+                function(err){
+                    console.log('ERROR ',err)
+                }
+            ))
         })
 
+        q.all(industryPromiseArray).then(function(results){
+            var pieData=[];
+            results.forEach(function(industry){
+                var totals = {};
+                //Total should probably be a mongoose virtual
+                totals.industry = industry.industryName;
+                totals.total = +industry.indivs;
+                totals.total += +industry.pacs
+                pieData.push(totals)
+            })
+
+            res.render('reps',{
+                candidate: candidate,
+                contributors: results.industry,
+                pieData:pieData
+                
+            })
+
+        })
     })
 
-
-
-    ////Refactoring above to feed data and use promises
-    ////Will be necessary to create main page heatmap
-    // request(industrySummary, function (err, response) {
-    //     // console.log('REP SUMMARY ROUTE HIT')
-    //     var parsedResponse = JSON.parse(response.body).response.industries;
-    //     var candidate = parsedResponse['@attributes'];
-
-    //     //This yields IND Attribs  { industry_code: 'K01',
-    //                                   // industry_name: 'Lawyers/Law Firms',
-    //                                   // indivs: '1244450',
-    //                                   // pacs: '166371',
-    //                                   // total: '1410821' }
-    //     var orgs = parsedResponse.industry; //Array of industry objects
-        
-    //     console.log('ORGS ',orgs[0]['@attributes'])
-        
-
-    //     var pieData =[];
-    //     orgs.forEach(function(org){
-    //         var thisOrg = org['@attributes'];
-    //         var totals ={};
-    //         totals.industry = thisOrg.industry_name;
-    //         totals.total = +thisOrg.total;
-    //         pieData.push(totals)
-    //     })
-        
-    //     // console.log('PIE DATA: ',pieData)
-    //     res.render('reps',{
-    //         candidate: candidate,
-    //         contributors: orgs,
-    //         pieData:pieData
-    //     })
-    // })
-
-
-
-	
-	
 })
 
 

@@ -28,7 +28,8 @@ var industrySchema = new Schema({
 	indivs: Number,
 	pacs: Number,
 	total: Number, ///Use a virtual for total
-	cycle: Number
+	cycle: Number,
+	cid: String
 })
 
 // industrySchema.plugin(findOrCreate);
