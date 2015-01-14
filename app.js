@@ -11,6 +11,7 @@ var states = require('./routes/states');
 var reps = require('./routes/reps');
 var orgs = require('./routes/orgs');
 var about = require('./routes/about');
+var seedMongo = require('./routes/seedMongo');
 
 var app = express();
 
@@ -41,8 +42,9 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/state', states);
 app.use('/reps', reps);
-app.use('/orgs',orgs);
-app.use('/about',about);
+app.use('/orgs', orgs);
+app.use('/about', about);
+app.use('/seedMongo', seedMongo);
 
 app.use('/d3', express.static(__dirname + '/d3'));
 
