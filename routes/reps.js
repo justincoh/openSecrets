@@ -52,10 +52,8 @@ router.get('/:state/:repId', function(req, res) {
             var pieData=[];
             results.forEach(function(industry){
                 var totals = {};
-                //Total should probably be a mongoose virtual
                 totals.industry = industry.industryName;
-                totals.total = +industry.indivs;
-                totals.total += +industry.pacs
+                totals.total = industry.total
                 pieData.push(totals)
             })
 
