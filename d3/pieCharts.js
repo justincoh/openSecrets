@@ -119,10 +119,7 @@ function populateSummary(){
     .html("<h4>Percent of Total</h4><h3>" + percent + "%" + "</h3>");
   var totalLi=$('<li/>')
     .html("<h4>Selected Funding</h4><h3>" + formatMoney(activeTotal) + "</h3>");
-  // var currentContributors=$("<li/>")
-  //   .html()
-
-  // $("#contributors").text(industries)
+  
   $summary.html(industries.join('<br>'));
   $totalContributions.html(totalLi);
   // totalLi.appendTo($totalContributions);

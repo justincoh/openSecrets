@@ -1,50 +1,74 @@
 var express = require('express');
 var router = express.Router();
-var http = require('http');
-var apiKey = '464d93f237b44d62ce46382d060a193b';
+var models = require('../models');
+var utilities = require('../public/javascripts/utilities.js');
+var stateAbbrevs = utilities.states;
+var apiKey = utilities.apiKey;
 var request = require('request');
-// var q = require('q');  //how can i refactor this with q?
+var q = require('q');
 
-router.get('/:repId', function(req, res) {
+router.get('/:state/:repId', function(req, res) {
 	var repId = req.params.repId;
-	// var repCall = 'http://www.opensecrets.org/api/?method=candSummary&cid='+repId+'cycle=2014&apikey='+apiKey+'&output=json';
+    var state = req.params.state;
+    var cycle = 2014;
+    var industrySummary = 'http://www.opensecrets.org/api/?method=candIndustry&cid='+repId+'&cycle='+cycle+'&output=json&apikey='+apiKey;
 	
-    var industrySummary = 'http://www.opensecrets.org/api/?method=candIndustry&cid='+repId+'&cycle=2014&output=json&apikey='+apiKey;
-    request(industrySummary, function (err, response) {
-        // console.log('REP SUMMARY ROUTE HIT')
+    request(industrySummary,function(err,response){
         var parsedResponse = JSON.parse(response.body).response.industries;
         var candidate = parsedResponse['@attributes'];
+        var orgs = parsedResponse.industry;
+        var industryPromiseArray = [];
 
-        //This yields IND Attribs  { industry_code: 'K01',
-                                      // industry_name: 'Lawyers/Law Firms',
-                                      // indivs: '1244450',
-                                      // pacs: '166371',
-                                      // total: '1410821' }
-        var orgs = parsedResponse.industry; //Array of industry objects
-        
-        // console.log('ORGS ',orgs[0]['@attributes'])
-
-        var pieData =[];
         orgs.forEach(function(org){
             var thisOrg = org['@attributes'];
-            var totals ={};
-            totals.industry = thisOrg.industry_name;
-            totals.total = +thisOrg.total;
-            pieData.push(totals)
+            var promiseForIndustry = models.Industry.findOne({state:state,indivs:thisOrg.indivs,pacs: thisOrg.pacs}).exec()
+            industryPromiseArray.push(promiseForIndustry.then(function(res){
+                if(res){
+                    return res;
+                } else {
+                    return models.Industry.create(
+                        {
+                            state:state,
+                            industryCode: thisOrg.industry_code,
+                            industryName: thisOrg.industry_name,
+                            indivs: thisOrg.indivs,
+                            pacs: thisOrg.pacs,
+                            cycle: cycle,
+                            cid: repId
+
+                        })
+                        .then(function(industry){
+                            return industry
+                        })
+                }
+            },
+                function(err){
+                    console.log('ERROR ',err)
+                }
+            ))
         })
-        
-        // console.log('PIE DATA: ',pieData)
-        res.render('reps',{
-            candidate: candidate,
-            contributors: orgs,
-            pieData:pieData
+
+        q.all(industryPromiseArray).then(function(results){
+            var pieData=[];
+            results.forEach(function(industry){
+                var totals = {};
+                //Total should probably be a mongoose virtual
+                totals.industry = industry.industryName;
+                totals.total = +industry.indivs;
+                totals.total += +industry.pacs
+                pieData.push(totals)
+            })
+
+            res.render('reps',{
+                candidate: candidate,
+                contributors: results.industry,
+                pieData:pieData
+                
+            })
+
         })
     })
 
-
-
-	
-	
 })
 
 

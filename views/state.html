@@ -7,9 +7,9 @@
 			
 		<div >	
 	    {% for rep in reps %}
-			
-		    <ul id="rep"><a href='/reps/{{ rep.cid }}'>
+		    <ul id="rep"><a href='/reps/{{rep.state}}/{{ rep.cid }}'>
 		    	{{ rep.firstlast }}
+
 		    	</a>
 		    </ul>
 		

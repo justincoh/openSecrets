@@ -10,13 +10,12 @@ var projection = d3.geo.albersUsa()
 var path = d3.geo.path()
     .projection(projection);
 
-
 var svg = d3.select(".mapContainer").append("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("id",'US')
 
-
+//pulling in state json data
 d3.json("/d3/us.json", function(error, us) {
   if (error) return console.error(error);
 
@@ -31,15 +30,14 @@ d3.json("/d3/us.json", function(error, us) {
       //added id in above line to use as selector: ex US-NY
       .attr("d", path)
       
-
-  /////////Gives state boundary lines
+  ////Gives state boundary lines
   svg.insert('path','.graticule')
     .datum(topojson.feature(us, us.objects.subunits,function(a, b) {console.log(a,b); return a !== b; }))
     .attr('class','state-boundary')
     .attr("d", path);
 
-    //Building hover tooltip
-    //has to be inside d3.json build for async reasons
+    ////Building hover tooltip
+    ////has to be inside d3.json build for async reasons
   var tooltip = d3.select('body').append('div')
               .style('position', 'absolute')
               .style('padding', '0 10px')
@@ -72,7 +70,6 @@ d3.json("/d3/us.json", function(error, us) {
       .on('click',function(d) {
         var stateAbbrev = d.id.split('-')[1];
         d3.select(this)
-        // window.location.replace('http://localhost:3000/state/'+stateAbbrev);
         window.location.replace('/state/'+stateAbbrev);
         console.log(this)
       })  
