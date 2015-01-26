@@ -36,9 +36,7 @@ router.get('/:state', function(req, res) {
 				  			party: thisRep.party,
 				  			dob: thisRep.birthdate
 			  			}  	
-		  			).then(function(legislator){
-		  				return legislator
-		  			})
+		  			)
 				}
 				console.log('RES  ',res)
 			},

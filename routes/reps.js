@@ -37,9 +37,6 @@ router.get('/:state/:repId', function(req, res) {
                             cid: repId
 
                         })
-                        .then(function(industry){
-                            return industry
-                        })
                 }
             },
                 function(err){
