@@ -8,7 +8,7 @@ var color = d3.scale.category20()
     // .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
 var arc = d3.svg.arc()
-    .outerRadius(radius - 10)
+    .outerRadius(radius - 15)
     .innerRadius(radius*.4);
 
 var transitionArc = d3.svg.arc()
@@ -84,10 +84,10 @@ function createPieChart(data){
 function pieSliceToggle(element){
   var thisPath = d3.select(element);
     if(thisPath.attr('active')==='true'){
-      thisPath.transition().attr('d', arc)
+      thisPath.transition().ease('elastic').duration(1000).attr('d', arc)
       thisPath.attr('active',false)
     } else {
-      thisPath.transition().attr('d', transitionArc)
+      thisPath.transition().ease('back').duration(500).attr('d', transitionArc)
       thisPath.attr('active',true)
     }
 };
