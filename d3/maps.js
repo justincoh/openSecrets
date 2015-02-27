@@ -1,7 +1,7 @@
 var apiKey = '464d93f237b44d62ce46382d060a193b';
 
-var width = 800,
-    height = 600;
+var width = 750,
+    height = 500;
 
 var projection = d3.geo.albersUsa()
     .scale(1000)
