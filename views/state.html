@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>{{state}}</h1>
-    <h3>Representatives</h3>
+    <h3>{{state}}</h3>
+    <h5>Representatives</h5>
    	<div class='row' id='repRow'>
 			
-		<div >	
+		<div>	
 	    {% for rep in reps %}
 		    <ul id="rep"><a href='/reps/{{rep.state}}/{{ rep.cid }}'>
 		    	{{ rep.firstlast }}

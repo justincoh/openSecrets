@@ -9,7 +9,7 @@
 >about where political funding originates, and this project was a way for me to visualize it.
 
 
-I'm testing out a few extensions/improvements at the moment, so check back over the next few weeks.
+I have some ideas for extensions (filtering, heatmapping), so check back every so often.
 
 Also, feel free to fork this from [github] and do your own thing.
 

@@ -116,9 +116,9 @@ function populateSummary(){
   var percent = +(activeTotal*100/sum).toFixed(2);
   // console.log(activeTotal,sum,percent,industries)
   var percentLi=$('<li/>')
-    .html("<h4>Percent of Total</h4><h3>" + percent + "%" + "</h3>");
+    .html("<p>Percent of Total</p><h5>" + percent + "%" + "</h5>");
   var totalLi=$('<li/>')
-    .html("<h4>Selected Funding</h4><h3>" + formatMoney(activeTotal) + "</h3>");
+    .html("<p>Selected Funding</p><h5>" + formatMoney(activeTotal) + "</h5>");
   
   $summary.html(industries.join('<br>'));
   $totalContributions.html(totalLi);
