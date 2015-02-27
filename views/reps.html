@@ -1,11 +1,10 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
 	<h4>{{ candidate.cand_name }}</h4>
-
+  <a href='/state/{{stateAbbrev}}'><h5>{{stateName}}</h5></a>
   <div class="row">
-    <div class="col l3 m3 s3">
+    <div class="col l3 m6 s12">
       <h4>Contributions</h4>
 			
 			<div id="totalContributions">
@@ -24,7 +23,7 @@
       <div id="summary"></div>
 			
     </div>
-    <div class="col l6 m6 s12">
+    <div class="col l9 m6 s12">
       <div id="repPieChart"></div>
     </div>
   </div>

@@ -56,6 +56,8 @@ router.get('/:state/:repId', function(req, res) {
 
             res.render('reps',{
                 candidate: candidate,
+                stateAbbrev: state,
+                stateName: stateAbbrevs[state],
                 contributors: results.industry,
                 pieData:pieData
                 
