@@ -95,7 +95,7 @@ var drawMap = function(heatMapObjects) {
                 stateHeat[state] = 0;
             })
 
-            console.log('HEATMAP ', heatMapObjects);
+            // console.log('HEATMAP ', heatMapObjects);
             var topTotal = 0;
             heatMapObjects.forEach(function(obj) {
                 stateHeat[obj.state] = obj.total;
@@ -151,13 +151,13 @@ var heatMapHandler = function(industryNameString) {
         }
 
         $.get('/heatMaps/?' + industry, function(data) {
-            console.log('data from backend ', data)
+            // console.log('data from backend ', data)
             var total = 0;
             data.forEach(function(object) {
                 total += object.total;
                 d3.select()
             })
-            console.log("total ", total)
+            // console.log("total ", total)
             drawMap(data)
             $("#summary").empty();
             $("#summary").append('<p id="summary"><h5>' + industryForDisplay + '</h5><hr>' + formatMoney(total) + ' in total funding</p>');
