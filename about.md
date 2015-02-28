@@ -15,7 +15,7 @@ Unfortunately I can't fully seed the database due to API limitations, but if you
 
 I'm also working on a different, more helpful hover tooltip for the heatmapped . . . maps.  Check back soon!
 
-Also, feel free to fork this from [github] and do your own thing.
+Also, feel free to show some love on [github] or fork it and do your own thing.
 
 
 
