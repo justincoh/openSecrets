@@ -7,19 +7,23 @@ var models = require('../models');
 // var pelosiUrl = 'https://www.opensecrets.org/api/?method=candContrib&cid=N00007360&cycle=2012&apikey=464d93f237b44d62ce46382d060a193b&output=json';
 // var pelosiContributors = 'http://www.opensecrets.org/api/?method=candContrib&cid=N00007360&cycle=2012&apikey=464d93f237b44d62ce46382d060a193b&output=json'
 
-var legislators = '/api/?method=getLegislators&id=WY&apikey='+apiKey+'&output=json'
+var legislators = '/api/?method=getLegislators&id=WY&apikey=' + apiKey + '&output=json'
 
 var options = {
-  host: 'www.opensecrets.org',
-  path: legislators,
-  port: 80,  
-  method: 'GET'
+    host: 'www.opensecrets.org',
+    path: legislators,
+    port: 80,
+    method: 'GET'
 };
 
 
 /* GET home page. */
 router.get('/', function(req, res) {
-	res.render('index')
+    models.Industry.find().distinct('industryName').exec(function(err, industries) {
+        res.render('index', {
+            industries: industries.sort()
+        })
+    })
 });
 
 module.exports = router;
