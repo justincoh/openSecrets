@@ -124,11 +124,12 @@ drawMap();
 $(".dropdown-button").dropdown();
 var heatMapHandler = function(industryNameString){
   var industry = industryNameString;
-  var button = $('.heat-map');
+  var button = $('#industry-dropdown');
   button.on('click',function(e){
-    // console.log('CLICKED ',e.target)
-    $.get('/heatMaps',function(data){
-      // console.log('data from backend ',data)
+    // console.log('CLICKED ',$(e.target).text())
+    var industry = $(e.target).text();
+    $.get('/heatMaps/?'+industry,function(data){
+      console.log('data from backend ',data)
       drawMap(data)
 
     })

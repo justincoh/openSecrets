@@ -5,12 +5,11 @@ var utilities = require('../public/javascripts/utilities.js');
 var stateAbbrevs = utilities.states;
 var apiKey = utilities.apiKey;
 
-router.get('/', function(req, res) {
-	//Hardcoded for testing, need to pass in through query string
-	models.Industry.heatmap('Real Estate').then(function(docs){
-
-	console.log('heatMaps.js ',docs)
-	res.json(docs);
+router.get('/?', function(req, res) {
+	var industry = Object.keys(req.query)[0];
+	models.Industry.heatmap(industry).then(function(docs){
+		console.log('heatMaps.js ',docs)
+		res.json(docs);
 	})
 });
 

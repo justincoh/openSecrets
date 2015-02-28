@@ -2,23 +2,28 @@
 <div class='row'>
     <div class="col l12 m12 s12 center-align">
         <h5>Click a State</h5>
-        
-        <button class='btn waves-effect blue heat-map'>HeatMap</button>
-        <!-- put this functionality into dropdown -->
+        <!--<button class='btn waves-effect blue heat-map'>HeatMap</button>-->
+    </div>
+
+    <div class="col l2 m2 s2 center-align">
+
         <ul id="industry-dropdown" class="dropdown-content">
-            <li><a>Real Estate</a>
-            </li>
-            <li><a>Retired</a>
+
+            {% for industryName in industries %}
+            <li><a>{{industryName}}</a>
             </li>
             <li class="divider"></li>
-            <li><a>Lobbyists</a>
-            </li>
+            {% endfor %}
+            
         </ul>
         <!-- Dropdown Trigger -->
-        <li><button class="btn dropdown-button" href="#!" data-activates="industry-dropdown">Choose an Industry<i class="mdi-navigation-arrow-drop-down"></i></button></li>
-        
+        <li>
+            <button class="btn dropdown-button" href="#!" data-activates="industry-dropdown">Industries<i class="mdi-navigation-arrow-drop-down"></i>
+            </button>
+        </li>
+
     </div>
-    <div class="col l12 m12 s12">
+    <div class="col l10 m10 s10">
         <div class="mapContainer center-align">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
             <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
