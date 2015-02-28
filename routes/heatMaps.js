@@ -7,6 +7,10 @@ var apiKey = utilities.apiKey;
 
 router.get('/?', function(req, res) {
 	var industry = Object.keys(req.query)[0];
+	//handling '&' characters
+	if(industry.indexOf("REPLACED")!==-1){
+		industry = industry.replace("REPLACED",'&')
+	};
 	models.Industry.heatmap(industry).then(function(docs){
 		res.json(docs);
 	})
