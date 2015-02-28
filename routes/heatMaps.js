@@ -8,7 +8,6 @@ var apiKey = utilities.apiKey;
 router.get('/?', function(req, res) {
 	var industry = Object.keys(req.query)[0];
 	models.Industry.heatmap(industry).then(function(docs){
-		console.log('heatMaps.js ',docs)
 		res.json(docs);
 	})
 });

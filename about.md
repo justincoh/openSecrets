@@ -8,8 +8,12 @@
 >Thanks to the OpenSecrets [API], there's a ton of freely available data
 >about where political funding originates, and this project was a way for me to visualize it.
 
+***
+2/27/15 Update:
+#####Heatmapping is new!  
+Unfortunately I can't fully seed the database due to API limitations, but if you want to help fill up the heatmaps go through and click a bunch of representative names!
 
-I have some ideas for extensions (filtering, heatmapping), so check back every so often.
+I'm also working on a different, more helpful hover tooltip for the heatmapped . . . maps.  Check back soon!
 
 Also, feel free to fork this from [github] and do your own thing.
 

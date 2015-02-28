@@ -76,10 +76,12 @@ var drawMap = function(heatMapObjects) {
             })
             .on('click', function(d) {
                 var stateAbbrev = d.id.split('-')[1];
-                d3.select(this)
+                // d3.select(this)
                 window.location.replace('/state/' + stateAbbrev);
-                console.log(this)
+                // console.log(this)
             })
+
+
 
 
         //HeatMap
@@ -95,46 +97,65 @@ var drawMap = function(heatMapObjects) {
 
             console.log('HEATMAP ', heatMapObjects);
             var topTotal = 0;
-            heatMapObjects.forEach(function(obj){
-              stateHeat[obj.state] = obj.total;
-              if(obj.total>topTotal){topTotal=obj.total} //for color function
+            heatMapObjects.forEach(function(obj) {
+                stateHeat[obj.state] = obj.total;
+                if (obj.total > topTotal) {
+                    topTotal = obj.total
+                } //for color function
             })
 
             var colorFunc = d3.scale.linear()
-                  .domain([0,topTotal])
-                  .range(['#8cc0dc','#9a0821']);
-            
+                .domain([0, topTotal])
+                .range(['#8cc0dc', '#9a0821']);
+
             svg.selectAll(".subunit")
-              .style('fill',function(d){
-                var abbrev = d.id.split('-').pop();
-                return colorFunc(stateHeat[abbrev])
-              })
-            
+                .style('fill', function(d) {
+                    var abbrev = d.id.split('-').pop();
+                    return colorFunc(stateHeat[abbrev])
+                })
+
+
+            //building jquery hover side sumary
+            // d3.selectAll('path[class*="US"]').on('mouseover', function(d) {
+            //     console.log(this,d)
+            // })
+            //Does the same thing
+            // d3.selectAll('.subunit').on('mouseover', function(d) {
+            //     console.log(this,d)
+            // })
 
         }
-
-
-
     });
-
-
 };
 
+//Formatting money for display purposes
+function formatMoney(num) {
+    return '$' + num.toString()
+        .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+}
+
 drawMap();
+
 $(".dropdown-button").dropdown();
-var heatMapHandler = function(industryNameString){
-  var industry = industryNameString;
-  var button = $('#industry-dropdown');
-  button.on('click',function(e){
-    // console.log('CLICKED ',$(e.target).text())
-    var industry = $(e.target).text();
-    $.get('/heatMaps/?'+industry,function(data){
-      console.log('data from backend ',data)
-      drawMap(data)
-
+var heatMapHandler = function(industryNameString) {
+    var industry = industryNameString;
+    var dropdown = $('#industry-dropdown');
+    dropdown.on('click', function(e) {
+        var industry = $(e.target).text();
+        $.get('/heatMaps/?' + industry, function(data) {
+            console.log('data from backend ', data)
+            var total = 0;
+            data.forEach(function(object) {
+                total += object.total;
+                d3.select()
+            })
+            console.log("total ", total)
+            drawMap(data)
+            $("#summary").empty();
+            $("#summary").append('<p id="summary"><h5>' + industry + '</h5><hr>' + formatMoney(total) + ' in total funding</p>');
+            //Why dont jquery hover handlers take effect in here?
+        })
     })
-
-  })
 }
 
 heatMapHandler();
