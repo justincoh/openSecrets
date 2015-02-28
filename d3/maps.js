@@ -121,7 +121,7 @@ var drawMap = function(heatMapObjects) {
 };
 
 drawMap();
-
+$(".dropdown-button").dropdown();
 var heatMapHandler = function(industryNameString){
   var industry = industryNameString;
   var button = $('.heat-map');
