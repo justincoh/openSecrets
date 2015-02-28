@@ -128,13 +128,15 @@ var drawMap = function(heatMapObjects) {
     });
 };
 
+drawMap();
+
+
 //Formatting money for display purposes
 function formatMoney(num) {
     return '$' + num.toString()
         .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
 
-drawMap();
 
 $(".dropdown-button").dropdown();
 var heatMapHandler = function(industryNameString) {
@@ -142,6 +144,12 @@ var heatMapHandler = function(industryNameString) {
     var dropdown = $('#industry-dropdown');
     dropdown.on('click', function(e) {
         var industry = $(e.target).text();
+        //handling '&' characters
+        if(industry.indexOf('&')!==-1){
+            var industryForDisplay = industry;
+            industry = industry.replace('&','REPLACED')
+        }
+
         $.get('/heatMaps/?' + industry, function(data) {
             console.log('data from backend ', data)
             var total = 0;
@@ -152,8 +160,8 @@ var heatMapHandler = function(industryNameString) {
             console.log("total ", total)
             drawMap(data)
             $("#summary").empty();
-            $("#summary").append('<p id="summary"><h5>' + industry + '</h5><hr>' + formatMoney(total) + ' in total funding</p>');
-            //Why dont jquery hover handlers take effect in here?
+            $("#summary").append('<p id="summary"><h5>' + industryForDisplay + '</h5><hr>' + formatMoney(total) + ' in total funding</p>');
+            //Figure out why jquery hover handlers dont take effect in here
         })
     })
 }
