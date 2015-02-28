@@ -1,4 +1,4 @@
-var drawMap = function(heatMapObject) {
+var drawMap = function(heatMapObjects) {
     var width = 750,
         height = 500;
 
@@ -82,8 +82,8 @@ var drawMap = function(heatMapObject) {
             })
 
 
-        //Implementing HEATMAP
-        if (heatMapObject) {
+        //HeatMap
+        if (heatMapObjects) {
             var stateHeat = {};
             var paths = d3.selectAll('path')[0];
             paths.forEach(function(path) {
@@ -93,10 +93,23 @@ var drawMap = function(heatMapObject) {
                 stateHeat[state] = 0;
             })
 
-            console.log('HEATMAP ', heatMapObject);
-            d3.json(heatMapObject, function(error, datum) {
-                console.log('INSIDE ', error, datum)
+            console.log('HEATMAP ', heatMapObjects);
+            var topTotal = 0;
+            heatMapObjects.forEach(function(obj){
+              stateHeat[obj.state] = obj.total;
+              if(obj.total>topTotal){topTotal=obj.total} //for color function
             })
+
+            var colorFunc = d3.scale.linear()
+                  .domain([0,topTotal])
+                  .range(['#8cc0dc','#9a0821']);
+            
+            svg.selectAll(".subunit")
+              .style('fill',function(d){
+                var abbrev = d.id.split('-').pop();
+                return colorFunc(stateHeat[abbrev])
+              })
+            
 
         }
 
@@ -110,9 +123,16 @@ var drawMap = function(heatMapObject) {
 drawMap();
 
 var heatMapHandler = function(industryNameString){
+  var industry = industryNameString;
   var button = $('.heat-map');
   button.on('click',function(e){
-    console.log('CLICKED ',e.target)
+    // console.log('CLICKED ',e.target)
+    $.get('/heatMaps',function(data){
+      // console.log('data from backend ',data)
+      drawMap(data)
+
+    })
+
   })
 }
 

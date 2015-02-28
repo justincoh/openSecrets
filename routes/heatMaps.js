@@ -7,10 +7,10 @@ var apiKey = utilities.apiKey;
 
 router.get('/', function(req, res) {
 	//Hardcoded for testing, need to pass in through query string
-	models.Industry.heatmap('Lobbyists').then(function(docs){
+	models.Industry.heatmap('Real Estate').then(function(docs){
 
 	console.log('heatMaps.js ',docs)
-	res.status(200).send();
+	res.json(docs);
 	})
 });
 
