@@ -68,6 +68,11 @@ li {
   column-count: 3; */
 }
 
+#repList {
+  height: 450px;
+  overflow:scroll;
+}
+
 
 @media (max-width: 768px) {
   #repRow{
