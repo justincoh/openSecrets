@@ -46,10 +46,15 @@ router.get('/:state', function(req, res) {
 			))
 		})
 
+		var alphabetize = function(a,b){
+			if(a.lastname < b.lastname){return -1};
+			if(a.lastname > b.lastname){return 1};
+		}
+
 		q.all(legislatorPromiseArray).then(function(results){
 			res.render('state',{
 				state:stateAbbrevs[state],
-				reps:results}
+				reps:results.sort(alphabetize)}
 			)
 		})
 	})

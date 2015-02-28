@@ -5,7 +5,7 @@
     <h5>Representatives</h5>
    	<div class='row' id='repRow'>
 			
-		<div>	
+		<div class='col l3 m6 s12' id='repList'>	
 	    {% for rep in reps %}
 		    <ul id="rep"><a href='/reps/{{rep.state}}/{{ rep.cid }}'>
 		    	{{ rep.firstlast }}
