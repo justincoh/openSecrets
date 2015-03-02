@@ -144,6 +144,7 @@ var heatMapHandler = function(industryNameString) {
     var dropdown = $('#industry-dropdown');
     dropdown.on('click', function(e) {
         var industry = $(e.target).text();
+        var industryForDisplay = industry;
         //handling '&' characters
         if(industry.indexOf('&')!==-1){
             var industryForDisplay = industry;
