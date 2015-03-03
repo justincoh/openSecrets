@@ -14,6 +14,13 @@ router.get('/:state/:repId', function(req, res) {
     var industrySummary = 'http://www.opensecrets.org/api/?method=candIndustry&cid='+repId+'&cycle='+cycle+'&output=json&apikey='+apiKey;
 	
     request(industrySummary,function(err,response){
+        if(!response.hasOwnProperty('body')){
+            //handling bad responses from openSecrets
+            return res.render('myError',{ 
+                response: response
+            })
+        }
+
         var parsedResponse = JSON.parse(response.body).response.industries;
         var candidate = parsedResponse['@attributes'];
         var orgs = parsedResponse.industry;
@@ -54,7 +61,7 @@ router.get('/:state/:repId', function(req, res) {
                 pieData.push(totals)
             })
 
-            res.render('reps',{
+            return res.render('reps',{
                 candidate: candidate,
                 stateAbbrev: state,
                 stateName: stateAbbrevs[state],
