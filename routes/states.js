@@ -8,8 +8,6 @@ var request = require('request');
 var q = require('q');
 
 
-
-
 router.get('/:state', function(req, res) {
 		
 	var state=req.params.state.toUpperCase()
@@ -17,6 +15,13 @@ router.get('/:state', function(req, res) {
 	var stateReps = 'http://www.opensecrets.org/api/?method=getLegislators&cycle=2014&id='+state+'&apikey='+apiKey+'&output=json';
 	var responseArray=[];
 	request(stateReps,function(err,response){
+		if(!response.hasOwnProperty('body')){
+            //handling bad responses from openSecrets
+            return res.render('myError',{ 
+                response: response
+            })
+        }
+
 		var parsedResponse = JSON.parse(response.body).response.legislator;
 
 		parsedResponse.forEach(function(person){
