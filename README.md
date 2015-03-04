@@ -15,4 +15,8 @@ Currently working on a few additions:
 
 ***
 
+Feel free to show some github love or fork and do your own thing!  
+Built primarily on Node, Express, D3 and jquery.
+
+
 [openSecrets]:http://opensecrets.herokuapp.com
