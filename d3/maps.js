@@ -11,7 +11,6 @@ var drawMap = function(heatMapObjects) {
 
 
     d3.selectAll('svg').remove();
-
     var svg = d3.select(".mapContainer").append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -43,46 +42,14 @@ var drawMap = function(heatMapObjects) {
             .attr('class', 'state-boundary')
             .attr("d", path);
 
-        ////Building hover tooltip
-        ////has to be inside d3.json build for async reasons
+        //tooltip template
         var tooltip = d3.select('body').append('div')
             .style('position', 'absolute')
             .style('padding', '0 10px')
             .style('background', 'black')
             .style('color', 'white')
-            .style('opacity', 0) // setting to 0 because we dont want it to show when the graphic first loads
-
-        d3.selectAll('path')
-            .on('mouseover', function(d) {
-
-                if (d3.select(this).attr('class') === 'state-boundary') {
-                    return; //Handles mouseover state boundary lines
-                }
-                var stateAbbrev = d.id.split('-')[1];
-
-                d3.select(this)
-                    .style('opacity', 0.7)
-                tooltip.transition()
-                    .style('opacity', .9)
-                tooltip.html(stateAbbrev)
-                    .style('left', (d3.event.pageX - 15) + 'px')
-                    .style('top', (d3.event.pageY - 30) + 'px')
-            })
-            .on('mouseout', function(d) {
-                d3.select(this)
-                    .style('opacity', .5)
-                tooltip.transition().duration(500)
-                    .style('opacity', 0)
-            })
-            .on('click', function(d) {
-                var stateAbbrev = d.id.split('-')[1];
-                // d3.select(this)
-                window.location.replace('/state/' + stateAbbrev);
-                // console.log(this)
-            })
-
-
-
+            .style('opacity', 0)
+            .style('font-size', '1.25rem')
 
         //HeatMap
         if (heatMapObjects) {
@@ -114,17 +81,71 @@ var drawMap = function(heatMapObjects) {
                     return colorFunc(stateHeat[abbrev])
                 })
 
+            //HeatMap Specific Tooltip
+            d3.selectAll('.subunit')
+                .on('mouseover', function(d) {
+                    var stateId = d.id.slice(d.id.length - 2);
+                    var info = heatMapObjects.filter(function(el) {
+                        return el.state === stateId
+                    })
+                    info = info[0];
+                    var funding = info ? formatMoney(info.total) : '$0'; //Handles case where no object returned for a given state
 
-            //building jquery hover side sumary
-            // d3.selectAll('path[class*="US"]').on('mouseover', function(d) {
-            //     console.log(this,d)
-            // })
-            //Does the same thing
-            // d3.selectAll('.subunit').on('mouseover', function(d) {
-            //     console.log(this,d)
-            // })
+                    d3.select(this).style('opacity', 0.7)
+                    tooltip.transition()
+                        .style('opacity', .9)
+                    tooltip.html([stateId, funding].join(': '))
+                        .style('left', (d3.event.pageX - 15) + 'px')
+                        .style('top', (d3.event.pageY - 30) + 'px')
+                })
+                .on('mouseout', function(d) {
+                    d3.select(this)
+                        .style('opacity', .5)
+                    tooltip.transition().duration(500)
+                        .style('opacity', 0)
+                })
+                .on('click', function(d) {
+                    var stateAbbrev = d.id.split('-')[1];
+                    window.location.replace('/state/' + stateAbbrev);
+                })
 
         }
+
+
+        ////Building hover tooltip
+        ////has to be inside d3.json build for async reasons
+        else if (!heatMapObjects) {
+            // setting to 0 because we dont want it to show when the graphic first loads
+
+            d3.selectAll('path')
+                .on('mouseover', function(d) {
+
+                    if (d3.select(this).attr('class') === 'state-boundary') {
+                        return; //Handles mouseover state boundary lines
+                    }
+                    var stateAbbrev = d.id.split('-')[1];
+
+                    d3.select(this)
+                        .style('opacity', 0.7)
+                    tooltip.transition()
+                        .style('opacity', .9)
+                    tooltip.html(stateAbbrev)
+                        .style('left', (d3.event.pageX - 15) + 'px')
+                        .style('top', (d3.event.pageY - 30) + 'px')
+                })
+                .on('mouseout', function(d) {
+                    d3.select(this)
+                        .style('opacity', .5)
+                    tooltip.transition().duration(500)
+                        .style('opacity', 0)
+                })
+                .on('click', function(d) {
+                    var stateAbbrev = d.id.split('-')[1];
+                    window.location.replace('/state/' + stateAbbrev);
+                })
+        }
+
+
     });
 };
 
@@ -146,23 +167,20 @@ var heatMapHandler = function(industryNameString) {
         var industry = $(e.target).text();
         var industryForDisplay = industry;
         //handling '&' characters
-        if(industry.indexOf('&')!==-1){
+        if (industry.indexOf('&') !== -1) {
             var industryForDisplay = industry;
-            industry = industry.replace('&','REPLACED')
+            industry = industry.replace('&', 'REPLACED')
         }
 
         $.get('/heatMaps/?' + industry, function(data) {
-            // console.log('data from backend ', data)
             var total = 0;
             data.forEach(function(object) {
-                total += object.total;
-                d3.select()
-            })
-            // console.log("total ", total)
+                    total += object.total;
+                    d3.select()
+                })
             drawMap(data)
             $("#summary").empty();
-            $("#summary").append('<p id="summary"><h5>' + industryForDisplay + '</h5><hr>' + formatMoney(total) + ' in total funding</p>');
-            //Figure out why jquery hover handlers dont take effect in here
+            $("#summary").append('<p id="heatmap-summary"><h5>' + industryForDisplay + '</h5><hr>' + formatMoney(total) + ' in total funding</p>');
         })
     })
 }
