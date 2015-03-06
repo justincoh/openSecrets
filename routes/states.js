@@ -15,10 +15,10 @@ router.get('/:state', function(req, res) {
 	var stateReps = 'http://www.opensecrets.org/api/?method=getLegislators&cycle=2014&id='+state+'&apikey='+apiKey+'&output=json';
 	var responseArray=[];
 	request(stateReps,function(err,response){
-		if(!response.hasOwnProperty('body')){
+		if(response.body==='Resource not found'){
             //handling bad responses from openSecrets
             return res.render('myError',{ 
-                response: response
+                response: response.body
             })
         }
 

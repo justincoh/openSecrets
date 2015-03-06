@@ -1,8 +1,9 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h3>The response from the API was invalid.</h3>
-    <h4>Object returned was: {{response}}</h4>
-    <h6>Please try again in a little while!</h6>
-    
+	<div>
+	    <h3>The response from the API was invalid.</h3>
+	    <h4>Object returned was: "{{response}}"</h4>
+	    <h5>Please try again in a little while!</h5>
+    </div>
 {% endblock %}
