@@ -1,4 +1,4 @@
-var drawMap = function(heatMapObjects) {
+var drawMap = function(heatMapObject) {
     var width = 750,
         height = 500;
 
@@ -36,7 +36,7 @@ var drawMap = function(heatMapObjects) {
         ////Gives state boundary lines
         svg.insert('path', '.graticule')
             .datum(topojson.feature(us, us.objects.subunits, function(a, b) {
-                console.log(a, b);
+                // console.log(a, b);
                 return a !== b;
             }))
             .attr('class', 'state-boundary')
@@ -52,50 +52,42 @@ var drawMap = function(heatMapObjects) {
             .style('font-size', '1.25rem')
 
         //HeatMap
-        if (heatMapObjects) {
-            var stateHeat = {};
+        if (heatMapObject) {
+            var stateHeat = heatMapObject;
             var paths = d3.selectAll('path')[0];
             paths.forEach(function(path) {
                 //Initializing 50 state keys with values = 0
                 var classString = path.className.animVal;
                 var state = classString.slice(classString.length - 2);
-                stateHeat[state] = 0;
+                if (typeof stateHeat[state] === 'undefined') {  
+                    //states with no returned entries
+                    stateHeat[state] = 0;
+                }
             })
 
-            var topTotal = 0;
-            heatMapObjects.forEach(function(obj) {
-                //this Function isnt going through state totals
-                //its going through each record total
-                //rewrite
-                console.log('OBJ ',obj)
-                stateHeat[obj.state] += obj.total;
-                if (obj.total > topTotal) {
-                    topTotal = obj.total
-                } //for color function
-                console.log('TOPTOTAL ',topTotal, obj.state)
-            })
+            //getting top total
+            var orderedKeys = Object.keys(heatMapObject).sort(function(a,b){
+                return heatMapObject[b] - heatMapObject[a]})
+            // console.log(orderedKeys)
+            var topState = orderedKeys[0];
+            var topTotal = heatMapObject[topState];
 
-            console.log(topTotal)
             var colorFunc = d3.scale.linear()
-                .domain([0, topTotal/2,topTotal])
-                .range(['#4C4C4C','#0b24e5', '#e50b24']);
+                .domain([0, topTotal / 2, topTotal])
+                .range(['#4C4C4C', '#0b24e5', '#e50b24']);
 
             svg.selectAll(".subunit")
                 .style('fill', function(d) {
                     var abbrev = d.id.split('-').pop();
                     return colorFunc(stateHeat[abbrev])
                 })
-                .style('opacity',.8)
+                .style('opacity', .8)
 
             //HeatMap Specific Tooltip
             d3.selectAll('.subunit')
                 .on('mouseover', function(d) {
                     var stateId = d.id.slice(d.id.length - 2);
-                    var info = heatMapObjects.filter(function(el) {
-                        return el.state === stateId
-                    })
-                    info = info[0];
-                    var funding = info ? formatMoney(info.total) : '$0'; //Handles case where no object returned for a given state
+                    var funding = formatMoney(stateHeat[stateId]);
 
                     d3.select(this).style('opacity', 0.7)
                     tooltip.transition()
@@ -120,7 +112,7 @@ var drawMap = function(heatMapObjects) {
 
         ////Building hover tooltip
         ////has to be inside d3.json build for async reasons
-        else if (!heatMapObjects) {
+        else if (!heatMapObject) {
             // setting to 0 because we dont want it to show when the graphic first loads
 
             d3.selectAll('path')
@@ -180,10 +172,11 @@ var heatMapHandler = function(industryNameString) {
 
         $.get('/heatMaps/?' + industry, function(data) {
             var total = 0;
-            data.forEach(function(object) {
-                    total += object.total;
-                    d3.select()
-                })
+            for(state in data){
+                if(data.hasOwnProperty(state)){
+                    total+=data[state]
+                }
+            }
             drawMap(data)
             $("#summary").empty();
             $("#summary").append('<p id="heatmap-summary"><h5>' + industryForDisplay + '</h5><hr>' + formatMoney(total) + ' in total funding</p>');
