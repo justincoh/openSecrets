@@ -62,24 +62,26 @@ var drawMap = function(heatMapObjects) {
                 stateHeat[state] = 0;
             })
 
-            // console.log('HEATMAP ', heatMapObjects);
             var topTotal = 0;
             heatMapObjects.forEach(function(obj) {
                 stateHeat[obj.state] = obj.total;
                 if (obj.total > topTotal) {
                     topTotal = obj.total
                 } //for color function
+                console.log('TOPTOTAL ',topTotal)
             })
 
+            console.log(topTotal)
             var colorFunc = d3.scale.linear()
-                .domain([0, topTotal])
-                .range(['#8cc0dc', '#9a0821']);
+                .domain([0, topTotal/2,topTotal])
+                .range(['#4C4C4C','#0b24e5', '#e50b24']);
 
             svg.selectAll(".subunit")
                 .style('fill', function(d) {
                     var abbrev = d.id.split('-').pop();
                     return colorFunc(stateHeat[abbrev])
                 })
+                .style('opacity',.8)
 
             //HeatMap Specific Tooltip
             d3.selectAll('.subunit')
@@ -100,7 +102,7 @@ var drawMap = function(heatMapObjects) {
                 })
                 .on('mouseout', function(d) {
                     d3.select(this)
-                        .style('opacity', .5)
+                        .style('opacity', .8)
                     tooltip.transition().duration(500)
                         .style('opacity', 0)
                 })
