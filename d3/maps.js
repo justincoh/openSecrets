@@ -36,7 +36,6 @@ var drawMap = function(heatMapObject) {
         ////Gives state boundary lines
         svg.insert('path', '.graticule')
             .datum(topojson.feature(us, us.objects.subunits, function(a, b) {
-                // console.log(a, b);
                 return a !== b;
             }))
             .attr('class', 'state-boundary')
@@ -56,7 +55,7 @@ var drawMap = function(heatMapObject) {
             var stateHeat = heatMapObject;
             var paths = d3.selectAll('path')[0];
             paths.forEach(function(path) {
-                //Initializing 50 state keys with values = 0
+                
                 var classString = path.className.animVal;
                 var state = classString.slice(classString.length - 2);
                 if (typeof stateHeat[state] === 'undefined') {  
@@ -68,7 +67,6 @@ var drawMap = function(heatMapObject) {
             //getting top total
             var orderedKeys = Object.keys(heatMapObject).sort(function(a,b){
                 return heatMapObject[b] - heatMapObject[a]})
-            // console.log(orderedKeys)
             var topState = orderedKeys[0];
             var topTotal = heatMapObject[topState];
 
@@ -110,10 +108,8 @@ var drawMap = function(heatMapObject) {
         }
 
 
-        ////Building hover tooltip
-        ////has to be inside d3.json build for async reasons
+        //Hover tooltip
         else if (!heatMapObject) {
-            // setting to 0 because we dont want it to show when the graphic first loads
 
             d3.selectAll('path')
                 .on('mouseover', function(d) {
