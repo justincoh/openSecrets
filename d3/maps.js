@@ -64,11 +64,15 @@ var drawMap = function(heatMapObjects) {
 
             var topTotal = 0;
             heatMapObjects.forEach(function(obj) {
-                stateHeat[obj.state] = obj.total;
+                //this Function isnt going through state totals
+                //its going through each record total
+                //rewrite
+                console.log('OBJ ',obj)
+                stateHeat[obj.state] += obj.total;
                 if (obj.total > topTotal) {
                     topTotal = obj.total
                 } //for color function
-                console.log('TOPTOTAL ',topTotal)
+                console.log('TOPTOTAL ',topTotal, obj.state)
             })
 
             console.log(topTotal)
