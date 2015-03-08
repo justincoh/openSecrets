@@ -12,7 +12,16 @@ router.get('/?', function(req, res) {
 		industry = industry.replace("REPLACED",'&')
 	};
 	models.Industry.heatmap(industry).then(function(docs){
-		res.json(docs);
+		var stateTotals ={};
+		docs.forEach(function(entry){
+			if(typeof stateTotals[entry.state]==='undefined'){
+				stateTotals[entry.state]=entry.total;
+			} else {
+				stateTotals[entry.state]+=entry.total;
+			}
+		})
+		
+		res.json(stateTotals);
 	})
 });
 
