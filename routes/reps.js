@@ -14,7 +14,7 @@ router.get('/:state/:repId', function(req, res) {
     var industrySummary = 'http://www.opensecrets.org/api/?method=candIndustry&cid='+repId+'&cycle='+cycle+'&output=json&apikey='+apiKey;
 	
     request(industrySummary,function(err,response){
-        if(response.body==='Resource not found'){
+        if(response.statusCode!==200){
             //handling bad responses from openSecrets
             return res.render('myError',{ 
                 response: response.body
