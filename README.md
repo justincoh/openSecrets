@@ -12,6 +12,7 @@ Currently working on a few additions:
 
 1. State summary by industry, similar to the current representative pie chart pages
 2. State summary by party
+3. Industry pages with breakdown of which state takes the most from selected industry
 
 ***
 
