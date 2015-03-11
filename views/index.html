@@ -4,7 +4,7 @@
         <h5>Select a State or Industry</h5>
     </div>
 
-    <div class="col l2 m2 s12 center-align" >
+    <div class="col l2 m2 s12 center-align">
 
         <ul id="industry-dropdown" class="dropdown-content">
 
@@ -13,14 +13,34 @@
             </li>
             <li class="divider"></li>
             {% endfor %}
-            
+
         </ul>
+
         <!-- Dropdown Trigger -->
         <li>
             <button class="btn dropdown-button" data-activates="industry-dropdown">Industries<i class="mdi-navigation-arrow-drop-down"></i>
             </button>
         </li>
+
+        <!-- legend -->
+        <!-- <div id="legend-wrapper">
+            <div class="col center-align" id="legend">
+                <div class="least">$0</div>
+                <div class="most">$$$</div>
+                <div class="colors">
+                    <div class='color-panel' style="background-color: #4C4C4C;"></div>
+                    <div class='color-panel' style="background-color: #0b24e5;"></div>
+                    <div class='color-panel' style="background-color: #6034A2;"></div>
+                    <div class='color-panel' style="background-color: #852F81;"></div>
+                    <div class='color-panel' style="background-color: #e50b24;"></div>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- end legend -->
+
         <div id="summary"></div>
+
 
     </div>
     <div class="col l9 m10 s12 offset-l1">
@@ -34,5 +54,7 @@
         </div>
     </div>
 
+
 </div>
+
 {% endblock %}

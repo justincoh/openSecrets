@@ -175,9 +175,12 @@ var heatMapHandler = function(industryNameString) {
             }
             drawMap(data)
             $("#summary").empty();
-            $("#summary").append('<p id="heatmap-summary"><h5>' + industryForDisplay + '</h5><hr>' + formatMoney(total) + ' in total funding</p>');
+            $("#summary").append("<div id='legend-wrapper'><div class='col center-align' id='legend'><div class='least'>$0</div><div class='most'>$$$</div><div class='colors'><div class='color-panel' style='background-color: #4C4C4C;'></div><div class='color-panel' style='background-color: #0b24e5;'></div><div class='color-panel' style='background-color: #6034A2;'></div><div class='color-panel' style='background-color: #852F81;'></div><div class='color-panel' style='background-color: #e50b24;'></div></div></div></div><br>")
+            $("#summary").append('<br><p id="heatmap-summary"><h5>' + industryForDisplay + '</h5><hr>' + formatMoney(total) + ' in total funding</p>');
         })
     })
 }
 
 heatMapHandler();
+
+

@@ -1,90 +1,97 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
-
 a {
-  color: #00B7FF;
+    color: #00B7FF;
 }
-
-.subunit[class*="US"] {
-  
+.subunit[class*="US"] {} path {
+    fill: #333;
+    opacity: .5;
 }
-
-path {
-	fill: #333;
-	opacity: .5;
-	
+.state-boundary {
+    fill: none;
+    stroke: #fff;
 }
-
-.state-boundary{
-	fill:none;
-	stroke: #fff;
-}
-
 .footer {
-	color:#bbb;
-	position: fixed;
-	bottom: 0px;
+    color: #bbb;
+    position: fixed;
+    bottom: 0px;
 }
-
 li {
-	list-style-type: none;
+    list-style-type: none;
 }
-
-#nav{
-  margin-left: 2%;
+#nav {
+    margin-left: 2%;
 }
-#aboutbutton{
-  font-size: 15px;
+#aboutbutton {
+    font-size: 15px;
 }
-
 #totalContributions, #percentage {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  text-align: center;
-  margin: 10px 0px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    margin: 10px 0px;
 }
-
 #summary {
-  line-height: 2.0;
-  font-size: 16px;
-  margin-left: 1rem;
+    float:left;
+    line-height: 2.0;
+    font-size: 16px;
+    margin-left: 1rem;
+    padding-top: 1rem;
 }
-
 .intro {
-  position: fixed;
-  top:20%;
-  left:10px;
-  /*padding: 0 2%;*/
+    position: fixed;
+    top: 20%;
+    left: 10px;
+    
 }
-
 #repRow {
-  margin-bottom: 15px;
-
-  /*max-height: 700px;
+    margin-bottom: 15px;
+    /*max-height: 700px;
    -webkit-column-count: 3; 
   -moz-column-count: 3; 
   column-count: 3; */
 }
-
 #repList {
-  height: 450px;
-  overflow:scroll;
+    height: 450px;
+    overflow: scroll;
 }
-
-
 @media (max-width: 768px) {
-  #repRow{
-    -webkit-column-count: 1; 
-  -moz-column-count: 1; 
-  column-count: 1;
-  }
+    #repRow {
+        -webkit-column-count: 1;
+        -moz-column-count: 1;
+        column-count: 1;
+    }
+}
+.color-panel {
+    border: solid 1px;
+    border-color: #d0d0cc;
+    height: 15px;
+    display: table-cell;
+    width: 20px;
+}
+.colors {
+  float:left;
+  display:table-row;
+  clear:both;
+}
+#legend {
+    border: 1px solid;
+    border-radius: 5px;
+    border-color: #d0d0cc;
+    box-sizing: content-box;
+    padding-bottom: 10px;
+    margin-bottom:1rem;
+
+}
+.least {
+    float:left;
+}
+.most {
+    float:right;
 }
 
-
-
-
-
-
-
+#legend-wrapper {
+  margin-left: 1rem;
+}
