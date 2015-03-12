@@ -91,7 +91,10 @@ var drawMap = function(heatMapObject) {
                     tooltip.transition()
                         .style('opacity', .9)
                     tooltip.html([stateId, funding].join(': '))
-                        .style('left', (d3.event.pageX - 15) + 'px')
+                })
+                .on('mousemove',function(d){
+                    tooltip
+                        .style('left', (d3.event.pageX - 40) + 'px')
                         .style('top', (d3.event.pageY - 30) + 'px')
                 })
                 .on('mouseout', function(d) {
@@ -124,7 +127,10 @@ var drawMap = function(heatMapObject) {
                     tooltip.transition()
                         .style('opacity', .9)
                     tooltip.html(stateAbbrev)
-                        .style('left', (d3.event.pageX - 15) + 'px')
+                })
+                .on('mousemove',function(d){
+                    tooltip
+                        .style('left', (d3.event.pageX - 40) + 'px')
                         .style('top', (d3.event.pageY - 30) + 'px')
                 })
                 .on('mouseout', function(d) {
