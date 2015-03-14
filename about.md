@@ -12,18 +12,6 @@
 
 ***
 
-2/27/15 Update:
-#####Heatmapping is new!  
-I'm also working on a different, more helpful hover tooltip for the heatmapped . . . maps.  Check back soon!
-
-
-3/6/15 Update:
-
-More helpful tooltip implemented!  States now display total funding coming from the selected industry on hover.
-
-
-
-
 
 
 [d3]:http://www.d3js.org
